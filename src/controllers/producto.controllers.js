@@ -32,6 +32,39 @@ cafeteriaCtrl.productoNuevo = async(req, res)=>{
     }
 }
 
+cafeteriaCtrl.listaProductos = async(req,res)=>{
+    try{
+        // obtener un arreglo con los productos
+        const arregloProductos = await Producto.find();
+        // responder al frontend
+        res.status(200).json(arregloProductos);
+
+    }catch(error){
+        console.log(error);
+        // enviar error al frontend
+        res.status(500).json({
+            mensaje:"ocurrio un error al intentar listar los productos"
+        })
+    }
+}
+
+cafeteriaCtrl.eliminarProducto = async(req, res)=>{
+    try{
+        console.log(req.params.id);
+        await Producto.findByIdAndDelete(req.params.id);
+         res.status(200).json({
+             mensaje: 'El producto fue eliminado'
+         })
+
+    }catch(error){
+        console.log(error);
+        // enviar error al frontend
+        res.status(500).json({
+            mensaje:"ocurrio un error al eliminar el producto"
+        })
+    }
+}
+
 
 export default cafeteriaCtrl;
 
